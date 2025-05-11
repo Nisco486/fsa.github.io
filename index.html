@@ -9,12 +9,16 @@
 </head>
 <body>
     <div class="hero">
+        <div class="hero-overlay"></div>
         <div class="hero-content">
             <h1>Unlock the Secrets to Fresher Food!</h1>
             <p>Discover the best ways to store your groceries and minimize waste.</p>
-            <div class="scroll-down">
-                <span>Scroll to Chat</span>
-                <div class="arrow"></div>
+            <div class="hero-actions">
+                <button id="startChatButton" class="chat-button prominent">Chat with Assistant</button>
+                <div class="scroll-down">
+                    <span>Learn More</span>
+                    <div class="arrow"></div>
+                </div>
             </div>
         </div>
     </div>
@@ -33,8 +37,9 @@
         </div>
 
         <div class="chat-section" id="chatSection">
-            <h2>Ready to Chat?</h2>
-            <p>Scroll down to find our helpful assistant!</p>
+            <h2>Need Food Storage Tips?</h2>
+            <p>Click the button below to chat with our assistant!</p>
+            <button id="chatNowButton" class="chat-button">Chat Now</button>
         </div>
 
         <div class="messenger-container">
@@ -49,21 +54,50 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            const scrollDown = document.querySelector('.scroll-down');
-            const chatSection = document.getElementById('chatSection');
+            const startChatButton = document.getElementById('startChatButton');
             const messengerContainer = document.querySelector('.messenger-container');
+            const dfMessenger = document.querySelector('df-messenger');
+            const chatSection = document.getElementById('chatSection');
 
-            scrollDown.addEventListener('click', function() {
+            startChatButton.addEventListener('click', function() {
+                // Scroll to the messenger container
                 messengerContainer.scrollIntoView({ behavior: 'smooth' });
+
+                // Function to try and open the chat
+                const tryOpenChat = () => {
+                    if (dfMessenger && dfMessenger.shadowRoot) {
+                        const chatButton = dfMessenger.shadowRoot.querySelector('.df-messenger-button-container');
+                        if (chatButton) {
+                            chatButton.click(); // Simulate a click on the chat button
+                            return; // Exit the function if successful
+                        }
+                    }
+                    // If not successful, try again after a short delay
+                    setTimeout(tryOpenChat, 200); // Try again after 200 milliseconds
+                };
+
+                // Start trying to open the chat
+                tryOpenChat();
             });
 
-            // Optional: Subtle animation for the arrow
+            // ---  Keep the existing scroll-down and arrow animation ---
+            const scrollDown = document.querySelector('.scroll-down');
+            scrollDown.addEventListener('click', function() {
+                chatSection.scrollIntoView({ behavior: 'smooth' });
+            });
+
             function animateArrow() {
                 const arrow = document.querySelector('.arrow');
                 arrow.classList.add('animate');
                 setTimeout(() => arrow.classList.remove('animate'), 1000);
             }
             setInterval(animateArrow, 2000);
+            // --------------------------------------------------------
+
+            // Add an arrow pointing to chat container
+            const arrowToChat = document.createElement('div');
+            arrowToChat.classList.add('arrow-to-chat');
+            messengerContainer.parentElement.appendChild(arrowToChat);
         });
     </script>
 </body>

@@ -13,23 +13,43 @@ body {
     color: white;
     text-align: center;
     padding: 150px 20px;
+    position: relative; /* For positioning the overlay */
+    overflow: hidden; /* To contain the overlay within the hero */
+}
+
+.hero-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.3); /* Semi-transparent black for overlay */
+    opacity: 0;
+    animation: fadeIn 2s ease-in-out forwards; /* Subtle fade-in animation */
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
 }
 
 .hero-content {
     max-width: 600px;
-    padding: 20px;
-    background: rgba(34, 5, 101, 0.5); /* Semi-transparent background for readability */
+    padding: 30px;
+    background: rgba(34, 5, 101, 0.6); /* Slightly less transparent */
     border-radius: 10px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-    backdrop-filter: blur(5px); /* Optional: adds a blur effect to the background */
+    backdrop-filter: blur(5px);
     max-width: 800px;
     margin: 0 auto;
+    position: relative; /* To sit above the overlay */
+    z-index: 10; /* Ensure text is on top */
 }
 
 .hero h1 {
-    font-size: 2.5em;
+    font-size: 2.8em;
     margin-bottom: 20px;
-    color: #fff; /* Ensure text is readable on the background */
+    color: #fff;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6);
 }
 
@@ -38,6 +58,56 @@ body {
     line-height: 1.6;
     margin-bottom: 30px;
     text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.hero-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.chat-button {
+    background-color: #0d7ff1;
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1em;
+    transition: background-color 0.3s ease, transform 0.2s ease-in-out; /* Added transform for potential animation */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.chat-button:hover {
+    background-color: #005bb5;
+    transform: translateY(-2px); /* Subtle lift on hover */
+}
+
+/* More prominent chat button style */
+.chat-button.prominent {
+    background-color: #5cb85c; /* A more inviting green */
+    color: white;
+    font-size: 1.1em;
+    padding: 15px 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    animation: pulse 2s infinite alternate; /* Gentle pulse animation */
+}
+
+.chat-button.prominent:hover {
+    background-color: #4cae4c;
+    transform: translateY(-3px);
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+    100% {
+        transform: scale(1.05);
+    }
 }
 
 .scroll-down {
@@ -123,6 +193,7 @@ body {
 
 .chat-section p {
     color: #666;
+    margin-bottom: 20px;
 }
 
 .messenger-container {
@@ -132,18 +203,17 @@ body {
     border-radius: 10px;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
     display: flex;
-    justify-content: center; /* Center the chat icon */
+    justify-content: center;
 }
 
 df-messenger {
     width: 100%;
-    max-width: 400px; /* Limit the width of the chat window */
+    max-width: 400px;
     height: 500px;
 }
 
-/* Optional: Style the chat bubble more subtly */
 df-messenger::shadow .df-messenger-button-container {
-    opacity: 0.8; /* Slightly transparent initially */
+    opacity: 0.8;
     transition: opacity 0.3s ease-in-out;
 }
 
@@ -151,7 +221,6 @@ df-messenger::shadow .df-messenger-button-container:hover {
     opacity: 1;
 }
 
-/* Optional: Animate the appearance of the chat bubble */
 df-messenger::shadow .df-messenger-button-container {
     transform: scale(0.8);
     animation: scaleUp 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
@@ -163,7 +232,6 @@ df-messenger::shadow .df-messenger-button-container {
     }
 }
 
-/* Subtle animation for the arrow in scroll-down */
 .arrow.animate {
     animation: bounce 0.8s ease-in-out;
 }
