@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Food Storage Assistant</title>
+    <link rel="stylesheet" href="styles.css" />
+    <script src="https://www.gstatic.com/dialogflow-console/fast/messenger/bootstrap.js?v=1"></script>
+</head>
+<body>
+    <div class="hero">
+        <div class="hero-content">
+            <h1>Unlock the Secrets to Fresher Food!</h1>
+            <p>Discover the best ways to store your groceries and minimize waste.</p>
+            <div class="scroll-down">
+                <span>Scroll to Chat</span>
+                <div class="arrow"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="content-area">
+        <div class="info-section">
+            <h2>Keep Your Food Fresh, Longer</h2>
+            <p>Tired of throwing away spoiled food? Our Food Storage Assistant is here to help!</p>
+            <img src="images/fresh-vegetables.jpg" alt="Fresh Vegetables" class="info-image">
+        </div>
+
+        <div class="info-section">
+            <h2>Reduce Waste, Save Money</h2>
+            <p>Proper food storage not only keeps your food delicious but also saves you money by preventing unnecessary spoilage.</p>
+            <img src="images/fridge-organization.jpg" alt="Organized Fridge" class="info-image">
+        </div>
+
+        <div class="chat-section" id="chatSection">
+            <h2>Ready to Chat?</h2>
+            <p>Scroll down to find our helpful assistant!</p>
+        </div>
+
+        <div class="messenger-container">
+            <df-messenger
+                intent="WELCOME"
+                chat-title="Food_Storage_Assistant"
+                agent-id="c4c4745e-5d89-48ee-ad3c-97cd970fafa3"
+                language-code="en"
+            ></df-messenger>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const scrollDown = document.querySelector('.scroll-down');
+            const chatSection = document.getElementById('chatSection');
+            const messengerContainer = document.querySelector('.messenger-container');
+
+            scrollDown.addEventListener('click', function() {
+                messengerContainer.scrollIntoView({ behavior: 'smooth' });
+            });
+
+            // Optional: Subtle animation for the arrow
+            function animateArrow() {
+                const arrow = document.querySelector('.arrow');
+                arrow.classList.add('animate');
+                setTimeout(() => arrow.classList.remove('animate'), 1000);
+            }
+            setInterval(animateArrow, 2000);
+        });
+    </script>
+</body>
+</html>
