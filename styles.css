@@ -7,7 +7,7 @@ body {
 }
 
 .hero {
-    background-image: url('images/hero-food.jpg'); /* Replace with your image path */
+    background-image: url('images/hero-food.jpg'); /* Ensure this path is correct */
     background-size: cover;
     background-position: center;
     color: white;
@@ -68,48 +68,6 @@ body {
     margin-top: 20px;
 }
 
-.chat-button {
-    background-color: #0d7ff1;
-    color: white;
-    border: none;
-    padding: 12px 25px;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 1em;
-    transition: background-color 0.3s ease, transform 0.2s ease-in-out; /* Added transform for potential animation */
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-}
-
-.chat-button:hover {
-    background-color: #005bb5;
-    transform: translateY(-2px); /* Subtle lift on hover */
-}
-
-/* More prominent chat button style */
-.chat-button.prominent {
-    background-color: #5cb85c; /* A more inviting green */
-    color: white;
-    font-size: 1.1em;
-    padding: 15px 30px;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-    animation: pulse 2s infinite alternate; /* Gentle pulse animation */
-}
-
-.chat-button.prominent:hover {
-    background-color: #4cae4c;
-    transform: translateY(-3px);
-}
-
-@keyframes pulse {
-    0% {
-        transform: scale(1);
-    }
-    100% {
-        transform: scale(1.05);
-    }
-}
-
 .scroll-down {
     cursor: pointer;
     display: flex;
@@ -157,6 +115,14 @@ body {
     background-color: white;
     border-radius: 8px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+}
+
+.info-section.visible {
+    opacity: 1;
+    transform: translateY(0);
 }
 
 .info-section h2 {
@@ -177,33 +143,65 @@ body {
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
-.chat-section {
-    text-align: center;
-    padding: 30px 20px;
-    background-color: #e6f7ff; /* Light blue background for emphasis */
-    border-radius: 8px;
+.interactive-tips-section {
+    max-width: 800px;
     margin: 30px auto;
-    max-width: 600px;
+    padding: 20px;
+    background-color: #f0f8ff; /* Light blue background */
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.08);
+    text-align: center;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
 }
 
-.chat-section h2 {
+.interactive-tips-section h2 {
     color: #0d7ff1;
+    margin-bottom: 20px;
+    grid-column: 1 / -1; /* Make the heading span across all columns */
+}
+
+.tip-card {
+    background-color: white;
+    border-radius: 6px;
+    padding: 15px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    text-align: left;
+}
+
+.tip-card h4 {
+    color: #333;
+    margin-top: 0;
     margin-bottom: 10px;
 }
 
-.chat-section p {
+.tip-card p {
     color: #666;
-    margin-bottom: 20px;
+    line-height: 1.5;
+    margin-bottom: 0;
 }
 
 .messenger-container {
     margin-top: 30px;
     padding: 20px;
-    background: #f0f8ff; /* Very light blue */
+    background: #e6f7ff; /* Very light blue */
     border-radius: 10px;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.messenger-container h2 {
+    color: #0d7ff1;
+    margin-bottom: 10px;
+}
+
+.messenger-container p {
+    color: #666;
+    margin-bottom: 20px;
 }
 
 df-messenger {

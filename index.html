@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Food Storage Assistant</title>
+    <title>Advanced Food Storage Assistant</title>
     <link rel="stylesheet" href="styles.css" />
     <script src="https://www.gstatic.com/dialogflow-console/fast/messenger/bootstrap.js?v=1"></script>
 </head>
@@ -12,11 +12,10 @@
         <div class="hero-overlay"></div>
         <div class="hero-content">
             <h1>Unlock the Secrets to Fresher Food!</h1>
-            <p>Discover the best ways to store your groceries and minimize waste.</p>
+            <p>Discover the best ways to store your groceries, minimize waste, and get instant advice from our AI assistant.</p>
             <div class="hero-actions">
-                <button id="startChatButton" class="chat-button prominent">Chat with Assistant</button>
                 <div class="scroll-down">
-                    <span>Learn More</span>
+                    <span>Explore Tips</span>
                     <div class="arrow"></div>
                 </div>
             </div>
@@ -24,80 +23,103 @@
     </div>
 
     <div class="content-area">
-        <div class="info-section">
+        <div class="info-section visible" id="infoSection1">
             <h2>Keep Your Food Fresh, Longer</h2>
-            <p>Tired of throwing away spoiled food? Our Food Storage Assistant is here to help!</p>
+            <p>Tired of throwing away spoiled food? Our Food Storage Assistant is here to provide expert advice tailored to your needs.</p>
             <img src="images/fresh-vegetables.jpg" alt="Fresh Vegetables" class="info-image">
         </div>
 
-        <div class="info-section">
+        <div class="info-section visible" id="infoSection2">
             <h2>Reduce Waste, Save Money</h2>
-            <p>Proper food storage not only keeps your food delicious but also saves you money by preventing unnecessary spoilage.</p>
+            <p>Proper food storage not only keeps your food delicious but also saves you money by preventing unnecessary spoilage. Learn how to optimize your storage habits.</p>
             <img src="images/fridge-organization.jpg" alt="Organized Fridge" class="info-image">
         </div>
 
-        <div class="chat-section" id="chatSection">
-            <h2>Need Food Storage Tips?</h2>
-            <p>Click the button below to chat with our assistant!</p>
-            <button id="chatNowButton" class="chat-button">Chat Now</button>
+        <div class="interactive-tips-section">
+            <h2>Quick Tips & Tricks</h2>
+            <div class="tip-card">
+                <h4>Storing Berries</h4>
+                <p>Keep berries unwashed in a breathable container in the fridge. Wash just before eating to prevent mold.</p>
+            </div>
+            <div class="tip-card">
+                <h4>Herbs Freshness</h4>
+                <p>Store soft herbs like cilantro and parsley like a bouquet of flowers in water. For hard herbs like rosemary, wrap in a damp paper towel.</p>
+            </div>
+            <div class="tip-card">
+                <h4>Bread Storage</h4>
+                <p>Keep bread at room temperature in a bread box or a sealed paper bag for a few days. For longer storage, freeze it.</p>
+            </div>
         </div>
 
-        <div class="messenger-container">
+
+        <div class="messenger-container" id="chatInterface">
+             <h2>Chat With Our AI Food Expert</h2>
+             <p>Ask any question about food storage, and our assistant will help!</p>
             <df-messenger
                 intent="WELCOME"
-                chat-title="Food_Storage_Assistant"
+                chat-title="Food_Storage_Expert"
                 agent-id="c4c4745e-5d89-48ee-ad3c-97cd970fafa3"
                 language-code="en"
-            ></df-messenger>
+                chat-icon="images/chat-icon.svg">
+            </df-messenger>
         </div>
     </div>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            const startChatButton = document.getElementById('startChatButton');
-            const messengerContainer = document.querySelector('.messenger-container');
             const dfMessenger = document.querySelector('df-messenger');
-            const chatSection = document.getElementById('chatSection');
+            const contentArea = document.querySelector('.content-area');
+            const chatInterface = document.getElementById('chatInterface');
 
-            startChatButton.addEventListener('click', function() {
-                // Scroll to the messenger container
-                messengerContainer.scrollIntoView({ behavior: 'smooth' });
-
-                // Function to try and open the chat
-                const tryOpenChat = () => {
-                    if (dfMessenger && dfMessenger.shadowRoot) {
-                        const chatButton = dfMessenger.shadowRoot.querySelector('.df-messenger-button-container');
-                        if (chatButton) {
-                            chatButton.click(); // Simulate a click on the chat button
-                            return; // Exit the function if successful
+            const autoOpenChat = () => {
+                if (dfMessenger && dfMessenger.shadowRoot) {
+                    const chatButton = dfMessenger.shadowRoot.querySelector('#widgetIcon');
+                    if (chatButton) {
+                        const chatWindow = dfMessenger.shadowRoot.querySelector('.chat-wrapper.chat-open');
+                        if (!chatWindow) {
+                            chatButton.click();
                         }
+                        return;
                     }
-                    // If not successful, try again after a short delay
-                    setTimeout(tryOpenChat, 200); // Try again after 200 milliseconds
-                };
+                }
+                setTimeout(autoOpenChat, 300);
+            };
 
-                // Start trying to open the chat
-                tryOpenChat();
-            });
+            // Auto-open the chat after a short delay
+            setTimeout(autoOpenChat, 1500);
 
-            // ---  Keep the existing scroll-down and arrow animation ---
+
             const scrollDown = document.querySelector('.scroll-down');
-            scrollDown.addEventListener('click', function() {
-                chatSection.scrollIntoView({ behavior: 'smooth' });
-            });
+            if (scrollDown) {
+                scrollDown.addEventListener('click', function() {
+                    chatInterface.scrollIntoView({ behavior: 'smooth' });
+                });
+            }
 
             function animateArrow() {
                 const arrow = document.querySelector('.arrow');
-                arrow.classList.add('animate');
-                setTimeout(() => arrow.classList.remove('animate'), 1000);
+                if (arrow) {
+                    arrow.classList.add('animate');
+                    setTimeout(() => arrow.classList.remove('animate'), 1000);
+                }
             }
-            setInterval(animateArrow, 2000);
-            // --------------------------------------------------------
+            if (document.querySelector('.arrow')) {
+                setInterval(animateArrow, 2000);
+                animateArrow();
+            }
 
-            // Add an arrow pointing to chat container
-            const arrowToChat = document.createElement('div');
-            arrowToChat.classList.add('arrow-to-chat');
-            messengerContainer.parentElement.appendChild(arrowToChat);
+            const infoSections = document.querySelectorAll('.info-section');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            infoSections.forEach(section => {
+                observer.observe(section);
+            });
         });
     </script>
 </body>
